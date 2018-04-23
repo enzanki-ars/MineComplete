@@ -1,0 +1,54 @@
+buildscript {
+    repositories {
+        maven {
+            url = "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.3"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'application'
+}
+
+repositories {
+    jcenter()
+    maven {
+        url = "https://hub.spigotmc.org/nexus/content/repositories/public/"
+    }
+}
+
+dependencies {
+    compile 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+mainClassName = 'io.github.enzanki_ars.minecomplete.MineComplete'
+
+apply plugin: 'com.github.johnrengelman.shadow' // Workaround for https://github.com/johnrengelman/shadow/issues/336
+
+group = 'io.github.enzanki_ars'
+version = '1.0.0-SNAPSHOT'
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}
+
+eclipse {
+    classpath {
+        downloadJavadoc = true
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}

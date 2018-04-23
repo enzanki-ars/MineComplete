@@ -1,0 +1,4 @@
+name: MineComplete
+version: 1.0.0-SNAPSHOT
+author: enzanki_ars
+main: io.github.enzanki_ars.minecomplete.MineComplete
