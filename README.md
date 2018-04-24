@@ -11,14 +11,9 @@ and more.
 
 ## Warning
 
-This project is not ready for play testing at the moment. Many actions are 
+This project is not ready for play testing at the moment. Many actions could be  
 missing from the list, and completing the action before it is added to the game 
 could lead to difficulty in earning the points.  
-
-### Known issues
-
-* Finding a new item in a chest does not count as picking up a new item. 
-* Brewing and smelting does not count as a new item.
 
 ## Points
 
@@ -29,4 +24,8 @@ List of actions:
 
 * Earning and advancement.
 * Crafting a new item.
+* Enchanting an item.
+* Fishing.
+* Extracting from a furnace.
 * Picking up a new item. 
+* Dying.
