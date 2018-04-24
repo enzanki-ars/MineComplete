@@ -6,7 +6,7 @@
 
 MineComplete is a new game mode for Minecraft using Spigot/Bukkit. The goal of 
 the game is to do everything possible in MineCraft. Points are earned for 
-various things such as picking up or crafting new items, earning advancements, 
+various actions such as picking up or crafting new items, earning advancements, 
 and more. 
 
 ## Warning
