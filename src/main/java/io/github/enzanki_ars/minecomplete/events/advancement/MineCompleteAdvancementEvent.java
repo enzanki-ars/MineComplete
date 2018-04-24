@@ -15,6 +15,7 @@ import static io.github.enzanki_ars.minecomplete.utils.MineCompleteScore.addScor
 
 public class MineCompleteAdvancementEvent implements Listener {
     public static int EVENT_POINTS = 1;
+    public static String EVENT_TYPE = "advancements";
 
     @EventHandler
     public void onPlayerAdvancementEvent(PlayerAdvancementDoneEvent event) {
@@ -30,12 +31,13 @@ public class MineCompleteAdvancementEvent implements Listener {
 
         ConfigurationSection playerSection = config.getConfigurationSection(playerUUID);
 
-        List<String> advancementList = playerSection.getStringList("advancements");
+        List<String> advancementList = playerSection.getStringList(EVENT_TYPE);
 
         if (!advancementList.contains(advancementName)) {
             advancementList.add(advancementName);
+            advancementList.sort(String.CASE_INSENSITIVE_ORDER);
 
-            playerSection.set("advancements", advancementList);
+            playerSection.set(EVENT_TYPE, advancementList);
 
             addScoreToPlayer(event.getPlayer(), EVENT_POINTS, "earning a new advancement", advancementName);
         } else {

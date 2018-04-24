@@ -18,6 +18,7 @@ import static io.github.enzanki_ars.minecomplete.utils.MineCompleteScore.addScor
 
 public class MineCompletePlayerDeathEvent implements Listener {
     public static int EVENT_POINTS = 1;
+    public static String EVENT_TYPE = "deaths";
 
     @EventHandler
     public void onPlayerDeathEvent(PlayerDeathEvent event) {
@@ -37,12 +38,13 @@ public class MineCompletePlayerDeathEvent implements Listener {
 
         ConfigurationSection playerSection = config.getConfigurationSection(playerUUID);
 
-        List<String> deathList = playerSection.getStringList("deaths");
+        List<String> deathList = playerSection.getStringList(EVENT_TYPE);
 
         if (!deathList.contains(damageCause.name())) {
             deathList.add(damageCause.name());
+            deathList.sort(String.CASE_INSENSITIVE_ORDER);
 
-            playerSection.set("deaths", deathList);
+            playerSection.set(EVENT_TYPE, deathList);
 
             addScoreToPlayer(player, EVENT_POINTS, "dying", damageCause.name());
         }

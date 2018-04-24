@@ -2,6 +2,7 @@ package io.github.enzanki_ars.minecomplete.utils;
 
 import io.github.enzanki_ars.minecomplete.MineComplete;
 import io.github.enzanki_ars.minecomplete.events.advancement.MineCompleteAdvancementEvent;
+import io.github.enzanki_ars.minecomplete.events.item.MineCompleteEnchantmentEvent;
 import io.github.enzanki_ars.minecomplete.events.item.MineCompleteItemGetEvent;
 import io.github.enzanki_ars.minecomplete.events.player.MineCompletePlayerDeathEvent;
 import org.bukkit.Bukkit;
@@ -9,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,7 +19,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.*;
-import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class MineCompleteScore {
@@ -48,9 +50,10 @@ public class MineCompleteScore {
 
         int playerScore = 0;
 
-        playerScore += playerSection.getStringList("items").size() * MineCompleteItemGetEvent.EVENT_POINTS;
-        playerScore += playerSection.getStringList("advancements").size() * MineCompleteAdvancementEvent.EVENT_POINTS;
-        playerScore += playerSection.getStringList("deaths").size() * MineCompletePlayerDeathEvent.EVENT_POINTS;
+        playerScore += playerSection.getStringList(MineCompleteItemGetEvent.EVENT_TYPE).size() * MineCompleteItemGetEvent.EVENT_POINTS;
+        playerScore += playerSection.getStringList(MineCompleteAdvancementEvent.EVENT_TYPE).size() * MineCompleteAdvancementEvent.EVENT_POINTS;
+        playerScore += playerSection.getStringList(MineCompletePlayerDeathEvent.EVENT_TYPE).size() * MineCompletePlayerDeathEvent.EVENT_POINTS;
+        playerScore += playerSection.getStringList(MineCompleteEnchantmentEvent.EVENT_TYPE).size() * MineCompleteEnchantmentEvent.EVENT_POINTS;
 
         Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
         Objective obj = board.getObjective("MineComplete");
@@ -68,32 +71,27 @@ public class MineCompleteScore {
             Bukkit.getLogger().fine("Created directories for " + folder.getName());
         }
 
-        int damageCauses = EntityDamageEvent.DamageCause.values().length;
-        int materials = Material.values().length;
-        int advancements = 0;
+        int damageCausesCount = 0;
+        int materialsCount = 0;
+        int advancementsCount = 0;
+        int enchantmentsCount = 0;
 
         try {
             FileOutputStream fos = new FileOutputStream(outputFile, false);
             Writer writer = new OutputStreamWriter(fos, "UTF-8");
 
+            List<EntityDamageEvent.DamageCause> damageCauses = ObjectiveLists.writeListOfDamageCauses(writer);
 
-            writer.write("Damage causes: " + "\n");
-            for (EntityDamageEvent.DamageCause damageCause : EntityDamageEvent.DamageCause.values()) {
-                writer.write("  - " + damageCause.name() + "\n");
-            }
+            List<Material> materials = ObjectiveLists.writeListOfMaterials(writer);
 
-            writer.write("Items: " + "\n");
-            for (Material material : Material.values()) {
-                writer.write("  - " + material.name() + "\n");
-            }
+            List<Advancement> advancements = ObjectiveLists.writeListOfAdvancements(writer);
 
-            writer.write("Advancements: " + "\n");
-            Iterator<Advancement> advancementList = MineComplete.getPlugin(MineComplete.class).getServer().advancementIterator();
-            while (advancementList.hasNext()) {
-                Advancement curr = advancementList.next();
-                advancements++;
-                writer.write("  - " + curr.getKey().getKey() + "\n");
-            }
+            List<Enchantment> enchantments = ObjectiveLists.writeListOfEnchantments(writer);
+
+            damageCausesCount = damageCauses.size();
+            materialsCount = materials.size();
+            advancementsCount = advancements.size();
+            enchantmentsCount = enchantments.size();
 
             writer.flush();
         } catch (IOException e) {
@@ -101,12 +99,14 @@ public class MineCompleteScore {
             e.printStackTrace();
         }
 
-        System.out.print("Damage causes count: " + damageCauses);
-        System.out.print("Items count: " + materials);
-        System.out.print("Advancements count: " + advancements);
+        System.out.print("Damage causes count: " + damageCausesCount);
+        System.out.print("Items count: " + materialsCount);
+        System.out.print("Advancements count: " + advancementsCount);
+        System.out.print("Enchantments count: " + enchantmentsCount);
 
-        int countPoints = damageCauses + materials + advancements;
+        int countPoints = damageCausesCount + materialsCount + advancementsCount + enchantmentsCount;
 
         System.out.println("Count: " + countPoints);
     }
+
 }

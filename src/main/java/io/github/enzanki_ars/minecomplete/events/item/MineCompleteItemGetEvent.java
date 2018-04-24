@@ -16,6 +16,7 @@ import static io.github.enzanki_ars.minecomplete.utils.MineCompleteScore.addScor
 
 public class MineCompleteItemGetEvent implements Listener {
     public static int EVENT_POINTS = 1;
+    public static String EVENT_TYPE = "items";
 
     @EventHandler
     public void onPlayerItemGetEvent(EntityPickupItemEvent event) {
@@ -26,19 +27,17 @@ public class MineCompleteItemGetEvent implements Listener {
 
             FileConfiguration config = plugin.getConfig();
 
-            Logger log = plugin.getLogger();
-
-            String playerName = player.getName();
             String playerUUID = player.getUniqueId().toString();
             String itemName = event.getItem().getItemStack().getType().name();
 
             ConfigurationSection playerSection = config.getConfigurationSection(playerUUID);
 
-            List<String> itemList = playerSection.getStringList("items");
+            List<String> itemList = playerSection.getStringList(EVENT_TYPE);
 
             if (!itemList.contains(itemName)) {
                 itemList.add(itemName);
-                playerSection.set("items", itemList);
+                itemList.sort(String.CASE_INSENSITIVE_ORDER);
+                playerSection.set(EVENT_TYPE, itemList);
 
                 addScoreToPlayer(player, EVENT_POINTS, "picking up a new item", itemName);
             }

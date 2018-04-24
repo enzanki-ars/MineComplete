@@ -16,6 +16,7 @@ import static io.github.enzanki_ars.minecomplete.utils.MineCompleteScore.addScor
 
 public class MineCompleteCraftItemEvent implements Listener {
     public static int EVENT_POINTS = 1;
+    public static String EVENT_TYPE = "items";
 
     @EventHandler
     public void onPlayerCraftEvent(CraftItemEvent event) {
@@ -30,11 +31,12 @@ public class MineCompleteCraftItemEvent implements Listener {
 
         ConfigurationSection playerSection = config.getConfigurationSection(playerUUID);
 
-        List<String> itemList = playerSection.getStringList("items");
+        List<String> itemList = playerSection.getStringList(EVENT_TYPE);
 
         if (!itemList.contains(itemName)) {
             itemList.add(itemName);
-            playerSection.set("items", itemList);
+            itemList.sort(String.CASE_INSENSITIVE_ORDER);
+            playerSection.set(EVENT_TYPE, itemList);
 
             addScoreToPlayer(player, EVENT_POINTS, "crafting a new item", itemName);
         }
