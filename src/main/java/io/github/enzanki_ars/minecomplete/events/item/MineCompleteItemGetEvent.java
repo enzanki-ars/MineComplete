@@ -3,6 +3,7 @@ package io.github.enzanki_ars.minecomplete.events.item;
 import io.github.enzanki_ars.minecomplete.MineComplete;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,7 +21,7 @@ public class MineCompleteItemGetEvent implements Listener {
 
     @EventHandler
     public void onPlayerItemGetEvent(EntityPickupItemEvent event) {
-        if (event.getEntity() instanceof Player) {
+        if (event.getEntityType().equals(EntityType.PLAYER)) {
             Player player = (Player) event.getEntity();
 
             JavaPlugin plugin = MineComplete.getPlugin(MineComplete.class);

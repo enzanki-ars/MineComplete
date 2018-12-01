@@ -3,6 +3,7 @@ package io.github.enzanki_ars.minecomplete;
 import io.github.enzanki_ars.minecomplete.events.advancement.MineCompleteAdvancementEvent;
 import io.github.enzanki_ars.minecomplete.events.item.*;
 import io.github.enzanki_ars.minecomplete.events.other.MineCompleteJoinEvent;
+import io.github.enzanki_ars.minecomplete.events.player.MineCompletePlayerDamageEvent;
 import io.github.enzanki_ars.minecomplete.events.player.MineCompletePlayerDeathEvent;
 import io.github.enzanki_ars.minecomplete.tasks.AutoSaveScore;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -35,6 +36,7 @@ public class MineComplete extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new MineCompleteJoinEvent(), this);
 
+        getServer().getPluginManager().registerEvents(new MineCompletePlayerDamageEvent(), this);
         getServer().getPluginManager().registerEvents(new MineCompletePlayerDeathEvent(), this);
 
         BukkitScheduler scheduler = getServer().getScheduler();
@@ -45,7 +47,7 @@ public class MineComplete extends JavaPlugin {
         Objective obj = board.getObjective("MineComplete");
 
         if (obj == null) {
-            obj = board.registerNewObjective("MineComplete", "dummy");
+            obj = board.registerNewObjective("MineComplete", "dummy", "MineComplete");
             obj.setDisplaySlot(DisplaySlot.SIDEBAR);
             obj.setDisplayName("MineComplete");
         }

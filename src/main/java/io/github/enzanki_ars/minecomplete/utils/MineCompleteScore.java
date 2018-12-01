@@ -19,6 +19,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -78,7 +79,7 @@ public class MineCompleteScore {
 
         try {
             FileOutputStream fos = new FileOutputStream(outputFile, false);
-            Writer writer = new OutputStreamWriter(fos, "UTF-8");
+            Writer writer = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
 
             List<EntityDamageEvent.DamageCause> damageCauses = ObjectiveLists.writeListOfDamageCauses(writer);
 

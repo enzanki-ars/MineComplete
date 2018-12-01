@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compile 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
 }
 
 sourceCompatibility = 1.8
@@ -51,4 +51,12 @@ compileJava.options.encoding = 'UTF-8'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
 }

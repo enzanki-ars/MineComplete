@@ -35,7 +35,7 @@ public class MineCompleteEnchantmentEvent implements Listener {
         List<String> enchantmentList = playerSection.getStringList(EVENT_TYPE);
 
         for (Map.Entry<Enchantment, Integer> enchantmentEntry : enchantments.entrySet()) {
-            String enchantmentName = enchantmentEntry.getKey().getName();
+            String enchantmentName = enchantmentEntry.getKey().toString();
 
             if (!enchantmentList.contains(enchantmentName)) {
                 enchantmentList.add(enchantmentName);

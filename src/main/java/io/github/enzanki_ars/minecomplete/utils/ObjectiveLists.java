@@ -43,11 +43,11 @@ public class ObjectiveLists {
     public static List<Enchantment> writeListOfEnchantments(Writer writer) throws IOException {
         List<Enchantment> enchantments = Arrays.asList(Enchantment.values());
 
-        enchantments.sort(Comparator.comparing(Enchantment::getName));
+        enchantments.sort(Comparator.comparing(Enchantment::toString));
 
         writer.write("Enchantments: " + System.lineSeparator());
         for (Enchantment enchantment : enchantments) {
-            writer.write("  - " + enchantment.getName() + System.lineSeparator());
+            writer.write("  - " + enchantment.toString() + System.lineSeparator());
         }
 
         return enchantments;
